@@ -2,6 +2,7 @@
 
 namespace MWaszczuk\ExtraFormTypesBundle\Form\DataTransformer;
 
+use Symfony\Bridge\Doctrine\Form\ChoiceList\IdReader;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -12,6 +13,8 @@ class ExtraEntityViewTransformer implements DataTransformerInterface
      * @var ChoiceListInterface
      */
     private $choiceList;
+
+    private $idReader;
 
     /**
      * @var string
@@ -28,9 +31,10 @@ class ExtraEntityViewTransformer implements DataTransformerInterface
      */
     private $multiple;
 
-    public function __construct(ChoiceListInterface $choiceList, $class, $choiceLabel, $multiple)
+    public function __construct(ChoiceListInterface $choiceList, IdReader $idReader, $class, $choiceLabel, $multiple)
     {
         $this->choiceList = $choiceList;
+        $this->idReader = $idReader;
         $this->class = $class;
         $this->choiceLabel = $choiceLabel;
         $this->multiple = $multiple;
@@ -53,7 +57,9 @@ class ExtraEntityViewTransformer implements DataTransformerInterface
         $newItems = [];
         foreach ($value as $key => $item) {
             if (is_a($item, $this->class)) {
-                if (!$item->getId()) {
+                try {
+                    $this->idReader->getIdValue($item);
+                } catch (\RuntimeException $e) {
                     $newItems[] = $item;
                     unset($value[$key]);
                 }

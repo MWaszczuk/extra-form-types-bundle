@@ -45,6 +45,7 @@ class ExtraEntityType extends EntityType
         $builder->resetViewTransformers();
         $builder->addViewTransformer(new ExtraEntityViewTransformer(
             $choiceList,
+            $options['id_reader'],
             $options['class'],
             $options['choice_label'],
             $options['multiple']
