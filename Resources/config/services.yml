@@ -1,0 +1,7 @@
+services:
+    MWaszczuk\ExtraFormTypesBundle\Form\Type\ExtraEntityType:
+        arguments:
+            - '@doctrine'
+            - '@form.choice_list_factory'
+        tags:
+            - { name: 'form.type', alias: 'mw_extra_entity_type' }
