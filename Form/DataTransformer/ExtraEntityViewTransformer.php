@@ -14,6 +14,9 @@ class ExtraEntityViewTransformer implements DataTransformerInterface
      */
     private $choiceList;
 
+    /**
+     * @var IdReader
+     */
     private $idReader;
 
     /**

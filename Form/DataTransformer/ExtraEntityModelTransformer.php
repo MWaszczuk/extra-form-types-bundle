@@ -7,8 +7,14 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class ExtraEntityModelTransformer implements DataTransformerInterface
 {
+    /**
+     * @var string
+     */
     private $class;
 
+    /**
+     * @var string
+     */
     private $choiceLabel;
 
     public function __construct($class, $choiceLabel)
